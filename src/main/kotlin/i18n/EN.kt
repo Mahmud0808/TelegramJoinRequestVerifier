@@ -7,7 +7,8 @@ Question:
 What is the full model name of your device?
 
 To answer, reply in this way:
-/join [device name] (Such as /join Xiaomi Redmi Note 7)
+/join [device name]
+(Such as /join Xiaomi Redmi Note 7)
 
 And the invitation will be evaluated automatically!
 """.trimIndent(),
