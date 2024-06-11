@@ -13,7 +13,6 @@ repositories {
 dependencies {
     implementation("dev.inmo:tgbotapi:5.1.0")
     testImplementation(kotlin("test"))
-    testImplementation("org.slf4j:slf4j-simple:1.6.2")
 }
 
 tasks.test {
