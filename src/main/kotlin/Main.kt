@@ -52,7 +52,7 @@ suspend fun main(vararg args: String) {
 
             println(it)
 
-            if (args.size != 1) {
+            if (args.size <= 1) {
                 bot.sendMessage(user.id, model.usage)
                 return@onCommandWithArgs
             }
