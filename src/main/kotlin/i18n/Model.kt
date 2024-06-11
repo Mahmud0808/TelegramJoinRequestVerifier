@@ -2,7 +2,7 @@ package i18n
 
 data class Model(
     val lang : String,
-    val problem : String,
+    val question : String,
     val correct : String,
     val incorrect: String,
     val usage: String,
@@ -10,8 +10,7 @@ data class Model(
 )
 
 val allLang = arrayOf(
-    EN,
-    ZH
+    EN
 )
 
 fun getModel(lang: String?) : Model{

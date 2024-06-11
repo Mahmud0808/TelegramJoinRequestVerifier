@@ -1,3 +1,3 @@
 
-rootProject.name = "ksugmbot"
+rootProject.name = "joinreqbot"
 

@@ -2,36 +2,17 @@ package i18n
 
 val EN = Model(
     lang = "en",
-    problem = """
-Q:
-There is a GKI 2.0 device with kernel version 5.10.157-android12-9-xxxx-xxxx, android version 13, The kernel compression method is unknown, please read the tutorial carefully on the website and flash the image of the correct version and compression format for the device.
+    question = """
+Question:
+What is the full model name of your device?
 
-Tutorial Link：
-https://kernelsu.org/guide/installation.html
+To answer, reply in this way:
+/join [device name] (Such as /join Xiaomi Redmi Note 7)
 
-Condition:
-Device Status：OS is booted
-
-terminalfaker Built-in commands (type help to view) : status, adb, fastboot, magiskboot, cd, ls, cat, clear, echo, help, history, pwd, reboot, rm, touch, uname, version, whoami
-
-magiskboot： The binary file of the x86_64 platform is used here, and it can be operated directly on the linux terminal, without trying to push it and boot.img to the phone.
-
-status: Used to check the device status (system/bootloader/fastbootd/recovery).
-
-Do not add "./" to execute any command in terminalfaker
-
-Directory /home/user/workdir : All the files used in this test are placed in this directory, such as magiskboot, boot-official.img, etc
-
-https://exam.kernelsu.org/?pwd=[PASSWORD]
-
-Once done, you will be given a password to send to the robot
-
-/join [password] (Such as /join 123456)
-
-And the invitation will be approved automatically!
+And the invitation will be evaluated automatically!
 """.trimIndent(),
-    correct = "Correct Password!",
-    incorrect = "Incorrect Password!",
-    usage = "Usage: /join [password]",
+    correct = "Welcome! Your request has been approved.",
+    incorrect = "Sorry! You are not eligible to join the group.",
+    usage = "Usage: /join [device name]",
     notFound = "JoinRequest not found"
 )
