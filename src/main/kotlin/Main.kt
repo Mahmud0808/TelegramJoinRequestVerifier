@@ -1,4 +1,5 @@
 import dev.inmo.tgbotapi.extensions.api.chat.invite_links.approveChatJoinRequest
+import dev.inmo.tgbotapi.extensions.api.chat.invite_links.declineChatJoinRequest
 import dev.inmo.tgbotapi.extensions.api.send.sendMessage
 import dev.inmo.tgbotapi.extensions.behaviour_builder.telegramBotWithBehaviourAndLongPolling
 import dev.inmo.tgbotapi.extensions.behaviour_builder.triggers_handling.onChatJoinRequest
@@ -69,14 +70,15 @@ suspend fun main(vararg args: String) {
 
                     map.remove(user.id)
                 } else {
+                    bot.declineChatJoinRequest(req.identifier, user.id)
                     bot.sendMessage(user.id, model.incorrect)
 
                     println("user ${user.id} join ${req.identifier} failed")
                 }
             } else {
-                println("user ${user.id} not found group")
-
                 bot.sendMessage(user.id, model.notFound)
+
+                println("user ${user.id} not found in group")
             }
         }
     }.second.join()
