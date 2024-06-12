@@ -10,7 +10,7 @@ To answer, reply in this way:
 /join [device name]
 (Such as /join Xiaomi Redmi Note 7)
 
-And the invitation will be evaluated automatically!
+And the join request will be evaluated automatically!
 """.trimIndent(),
     correct = "Welcome! Your request has been approved.",
     incorrect = "Sorry! You are not eligible to join the group.",
