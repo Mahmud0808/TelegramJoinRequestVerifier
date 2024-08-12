@@ -15,5 +15,5 @@ And the join request will be evaluated automatically!
     correct = "Welcome! Your request has been approved.",
     incorrect = "Sorry! You are not eligible to join the group.",
     usage = "Usage: /join [device name]",
-    notFound = "JoinRequest not found"
+    notFound = "Join request not found, please try again.",
 )
