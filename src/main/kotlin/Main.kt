@@ -96,7 +96,7 @@ suspend fun main(vararg args: String) {
                 val req = map[user.id]!!
                 val message = it.content.text.replace("/join ", "")
                 val userId = user.id.chatId
-                val userName = user.username ?: userId
+                val userName = user.username?.username ?: userId
                 val chatName = req.identifier.usernameOrNull()?.usernameWithoutAt ?: "Unknown"
                 val logMessage: String
 
