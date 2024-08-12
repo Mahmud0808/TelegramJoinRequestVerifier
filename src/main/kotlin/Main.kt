@@ -7,10 +7,10 @@ import dev.inmo.tgbotapi.extensions.behaviour_builder.triggers_handling.onComman
 import dev.inmo.tgbotapi.extensions.utils.asCommonUser
 import dev.inmo.tgbotapi.extensions.utils.asPrivateChat
 import dev.inmo.tgbotapi.extensions.utils.extensions.raw.from
-import dev.inmo.tgbotapi.extensions.utils.usernameOrNull
 import dev.inmo.tgbotapi.types.ChatIdentifier
 import dev.inmo.tgbotapi.types.IdChatIdentifier
 import dev.inmo.tgbotapi.types.UserId
+import dev.inmo.tgbotapi.types.chat.PublicChat
 import dev.inmo.tgbotapi.utils.PreviewFeature
 import dev.inmo.tgbotapi.utils.RiskFeature
 import i18n.getModel
@@ -19,7 +19,7 @@ import kotlinx.coroutines.Dispatchers
 import java.util.Locale
 
 data class JoinRequest(
-    val identifier: ChatIdentifier,
+    val chat: PublicChat,
     val userId: UserId,
 )
 
@@ -65,15 +65,15 @@ suspend fun main(vararg args: String) {
 
     telegramBotWithBehaviourAndLongPolling(botToken, CoroutineScope(Dispatchers.IO)) {
         onChatJoinRequest {
+            val chat = it.chat
             val userId = it.from.id
-            val chatId = it.chat.id
             val mapSize = map.size
             val model = getModel(it.from.asCommonUser()?.ietfLanguageCode?.code)
 
             bot.sendMessage(userId, model.question)
-            map[userId] = JoinRequest(chatId, userId)
+            map[userId] = JoinRequest(chat, userId)
 
-            println("User $userId started joining $chatId, map size: $mapSize")
+            println("User $userId started joining ${chat.title}, map size: $mapSize")
         }
 
         onCommandWithArgs("help") { it, _ ->
@@ -94,10 +94,10 @@ suspend fun main(vararg args: String) {
 
             if (map.containsKey(user.id)) {
                 val req = map[user.id]!!
-                val message = it.content.text.replace("/join ", "")
                 val userId = user.id.chatId
                 val userName = user.username?.username ?: userId
-                val chatName = req.identifier.usernameOrNull()?.usernameWithoutAt ?: "Unknown"
+                val chatName = req.chat.title
+                val message = it.content.text.replace("/join ", "")
                 val logMessage: String
 
                 if (message.contains(
@@ -105,7 +105,7 @@ suspend fun main(vararg args: String) {
                         ignoreCase = true
                     )
                 ) {
-                    bot.approveChatJoinRequest(req.identifier, user.id)
+                    bot.approveChatJoinRequest(req.chat.id, user.id)
                     bot.sendMessage(it.chat, model.correct)
 
                     logMessage = "#APPROVE:\n" +
@@ -113,11 +113,11 @@ suspend fun main(vararg args: String) {
                             "User: $userName\n" +
                             "User ID: $userId\n" +
                             "Response: $message"
-                    println("User ${user.id} joined ${req.identifier}")
+                    println("User ${user.id} joined ${req.chat.title}")
 
                     map.remove(user.id)
                 } else {
-                    bot.declineChatJoinRequest(req.identifier, user.id)
+                    bot.declineChatJoinRequest(req.chat.id, user.id)
                     bot.sendMessage(user.id, model.incorrect)
 
                     logMessage = "#REJECT:\n" +
@@ -125,7 +125,7 @@ suspend fun main(vararg args: String) {
                             "User: $userName\n" +
                             "User ID: $userId\n" +
                             "Response: $message"
-                    println("User ${user.id} failed to join ${req.identifier}")
+                    println("User ${user.id} failed to join ${req.chat.title}")
                 }
 
                 logGroupId?.let { groupId ->
