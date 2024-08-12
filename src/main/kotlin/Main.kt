@@ -7,6 +7,7 @@ import dev.inmo.tgbotapi.extensions.behaviour_builder.triggers_handling.onComman
 import dev.inmo.tgbotapi.extensions.utils.asCommonUser
 import dev.inmo.tgbotapi.extensions.utils.asPrivateChat
 import dev.inmo.tgbotapi.extensions.utils.extensions.raw.from
+import dev.inmo.tgbotapi.extensions.utils.usernameOrNull
 import dev.inmo.tgbotapi.types.ChatIdentifier
 import dev.inmo.tgbotapi.types.IdChatIdentifier
 import dev.inmo.tgbotapi.types.UserId
@@ -93,9 +94,10 @@ suspend fun main(vararg args: String) {
 
             if (map.containsKey(user.id)) {
                 val req = map[user.id]!!
-                val message = it.content.text
-                val userName = user.username ?: "User"
-                val mention = "[$userName](tg://user?id=${user.id.chatId})"
+                val message = it.content.text.replace("/join ", "")
+                val userId = user.id.chatId
+                val userName = user.username ?: userId
+                val chatName = req.identifier.usernameOrNull()?.usernameWithoutAt ?: "Unknown"
                 val logMessage: String
 
                 if (message.contains(
@@ -107,9 +109,9 @@ suspend fun main(vararg args: String) {
                     bot.sendMessage(it.chat, model.correct)
 
                     logMessage = "#APPROVE:\n" +
-                            "Chat: ${req.identifier}\n" +
-                            "User: $mention\n" +
-                            "User ID: ${user.id.chatId}\n" +
+                            "Chat: $chatName\n" +
+                            "User: $userName\n" +
+                            "User ID: $userId\n" +
                             "Response: $message"
                     println("User ${user.id} joined ${req.identifier}")
 
@@ -119,9 +121,9 @@ suspend fun main(vararg args: String) {
                     bot.sendMessage(user.id, model.incorrect)
 
                     logMessage = "#REJECT:\n" +
-                            "Chat: ${req.identifier}\n" +
-                            "User: $mention\n" +
-                            "User ID: ${user.id.chatId}\n" +
+                            "Chat: $chatName\n" +
+                            "User: $userName\n" +
+                            "User ID: $userId\n" +
                             "Response: $message"
                     println("User ${user.id} failed to join ${req.identifier}")
                 }
