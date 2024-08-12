@@ -113,7 +113,7 @@ suspend fun main(vararg args: String) {
                             "User: $userName\n" +
                             "User ID: $userId\n" +
                             "Response: $message"
-                    println("User ${user.id} joined ${req.chat.title}")
+                    println("User $userName joined $chatName")
 
                     map.remove(user.id)
                 } else {
@@ -125,7 +125,7 @@ suspend fun main(vararg args: String) {
                             "User: $userName\n" +
                             "User ID: $userId\n" +
                             "Response: $message"
-                    println("User ${user.id} failed to join ${req.chat.title}")
+                    println("User $userName failed to join $chatName")
                 }
 
                 logGroupId?.let { groupId ->
