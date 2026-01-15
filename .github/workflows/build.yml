@@ -24,10 +24,9 @@ jobs:
         run: |
           cd $GITHUB_WORKSPACE
           chmod +x ./gradlew
-          ./gradlew jar
+          ./gradlew clean shadowJar
       - name: Upload build artifact
         uses: actions/upload-artifact@v4
         with:
           name: joinreqbot
           path: build/libs/*.jar
-        
