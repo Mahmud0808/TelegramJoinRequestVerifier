@@ -8,7 +8,7 @@ What is the full model name of your device?
 
 To answer, reply in this way:
 /join [device name]
-(Such as /join Xiaomi Redmi Note 7)
+(Example: /join Xiaomi Redmi Note 7)
 
 And the join request will be evaluated automatically!
 """.trimIndent(),
@@ -16,4 +16,6 @@ And the join request will be evaluated automatically!
     incorrect = "Sorry! You are not eligible to join the group.",
     usage = "Usage: /join [device name]",
     notFound = "Join request not found, please try again.",
+    timeout = "⏱ Your join request has expired due to no response.\n" +
+            "Please send a new join request and answer the question again."
 )

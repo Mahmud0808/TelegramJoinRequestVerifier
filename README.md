@@ -35,8 +35,10 @@ If you want to build locally, ensure you have Gradle installed and build the pro
 following command:
 
 ```
-./gradlew build
+./gradlew clean shadowJar
 ```
+
+The compiled JAR file can be found in the `/build/libs` directory.
 
 ### Running the Bot
 

@@ -1,17 +1,18 @@
 plugins {
-    kotlin("jvm") version "1.8.0"
+    kotlin("jvm") version "2.2.0"
     application
+    id("com.github.johnrengelman.shadow") version "8.1.1"
 }
 
 group = "com.drdisagree.joinreqbot"
-version = "1.0"
+version = "1.1"
 
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    implementation("dev.inmo:tgbotapi:5.1.0")
+    implementation("dev.inmo:tgbotapi:30.0.2")
     testImplementation(kotlin("test"))
 }
 
@@ -23,20 +24,21 @@ application {
     mainClass.set("MainKt")
 }
 
-tasks.withType<Jar> {
-    manifest {
-        attributes["Main-Class"] = "MainKt"
-    }
-
-    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-
-    configurations["compileClasspath"].forEach { file: File ->
-        from(zipTree(file.absoluteFile))
+kotlin {
+    jvmToolchain {
+        languageVersion.set(JavaLanguageVersion.of(17))
     }
 }
 
-kotlin {
-    jvmToolchain(8)
+tasks {
+    named<com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar>("shadowJar") {
+        archiveBaseName.set("joinreqbot")
+        archiveClassifier.set("")
+        archiveVersion.set(version.toString())
+
+        mergeServiceFiles()
+        minimize()
+    }
 }
 
 application {
