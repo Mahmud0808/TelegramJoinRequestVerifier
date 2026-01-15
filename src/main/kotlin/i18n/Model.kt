@@ -11,7 +11,17 @@ data class Model(
 )
 
 val allLang = arrayOf(
-    EN
+    EN,
+    AR,
+    DE,
+    ES,
+    FR,
+    HI,
+    JA,
+    KO,
+    PT,
+    RU,
+    ZH
 )
 
 fun getModel(lang: String?): Model {
