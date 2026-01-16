@@ -12,7 +12,8 @@ repositories {
 }
 
 dependencies {
-    implementation("dev.inmo:tgbotapi:30.0.2")
+    implementation("dev.inmo:tgbotapi:5.1.0")
+    implementation("org.slf4j:slf4j-nop:1.7.36")
     testImplementation(kotlin("test"))
 }
 
@@ -37,7 +38,11 @@ tasks {
         archiveVersion.set(version.toString())
 
         mergeServiceFiles()
-        minimize()
+        minimize {
+            exclude(dependency("io.ktor:.*:.*"))
+            exclude(dependency("org.slf4j:slf4j-api:.*"))
+            exclude(dependency("org.slf4j:slf4j-nop:.*"))
+        }
     }
 }
 

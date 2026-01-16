@@ -1,4 +1,3 @@
-import dev.inmo.kslog.common.filter.filtered
 import dev.inmo.tgbotapi.extensions.api.chat.invite_links.approveChatJoinRequest
 import dev.inmo.tgbotapi.extensions.api.chat.invite_links.declineChatJoinRequest
 import dev.inmo.tgbotapi.extensions.api.send.sendMessage
@@ -10,12 +9,9 @@ import dev.inmo.tgbotapi.extensions.utils.asPrivateChat
 import dev.inmo.tgbotapi.extensions.utils.extensions.raw.from
 import dev.inmo.tgbotapi.types.ChatIdentifier
 import dev.inmo.tgbotapi.types.IdChatIdentifier
-import dev.inmo.tgbotapi.types.RawChatId
 import dev.inmo.tgbotapi.utils.PreviewFeature
 import dev.inmo.tgbotapi.utils.RiskFeature
-import dev.inmo.tgbotapi.utils.SetDefaultKTgBotAPIKSLog
 import i18n.getModel
-import io.ktor.client.plugins.HttpRequestTimeoutException
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -23,11 +19,10 @@ import kotlinx.coroutines.launch
 
 @OptIn(PreviewFeature::class, RiskFeature::class)
 suspend fun main(vararg args: String) {
-    SetDefaultKTgBotAPIKSLog(dropCancellationExceptions = true) {
-        this.filtered { _, _, throwable ->
-            throwable !is HttpRequestTimeoutException && throwable?.cause !is HttpRequestTimeoutException
-        }
-    }
+    Runtime.getRuntime().addShutdownHook(Thread {
+        println("Bot is stopping... Goodbye 👋")
+    })
+    println("Started join request verifier bot.")
 
     Config.initialize(args)
 
@@ -138,7 +133,7 @@ suspend fun main(vararg args: String) {
             requestMap.remove(user.id)
 
             Config.logGroupId?.let {
-                bot.sendMessage(IdChatIdentifier(RawChatId(it)), logMessage)
+                bot.sendMessage(IdChatIdentifier(it), logMessage)
             }
         }
     }.second.join()
